@@ -1,0 +1,92 @@
+import Link from 'next/link';
+import { FieldLabel } from '@/components/admin/FieldLabel';
+import { getPostStats } from '@/lib/data/admin/posts';
+import { getTopPosts } from '@/lib/data/admin/analytics';
+
+export default async function AdminDashboardPage() {
+  const [stats, topPosts] = await Promise.all([getPostStats(), getTopPosts(5)]);
+
+  return (
+    <div>
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="font-display text-2xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-sm text-gray-500">Resumo da Folha do Município</p>
+        </div>
+        <Link
+          href="/admin/posts/novo"
+          className="rounded-lg bg-accent-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-accent-700"
+        >
+          + Nova notícia
+        </Link>
+      </div>
+
+      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          label="Publicadas"
+          value={stats.published}
+          tooltip="Matérias com status 'Publicado' e visíveis no site para os leitores."
+        />
+        <StatCard
+          label="Rascunhos"
+          value={stats.drafts}
+          tooltip="Matérias salvas mas ainda não publicadas. Ficam invisíveis no site público."
+        />
+        <StatCard
+          label="Total de notícias"
+          value={stats.total}
+          tooltip="Soma de todas as matérias cadastradas, incluindo rascunhos, publicadas e agendadas."
+        />
+        <StatCard
+          label="Visualizações"
+          value={stats.totalViews.toLocaleString('pt-BR')}
+          tooltip="Total acumulado de pageviews registrados pelo portal em todas as matérias publicadas."
+        />
+      </div>
+
+      <section className="max-w-xl rounded-xl border border-gray-200 bg-white p-6">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="font-display text-lg font-bold">Mais lidas</h2>
+          <Link href="/admin/analytics" className="text-sm text-brand-600 hover:underline">
+            Ver tudo →
+          </Link>
+        </div>
+        <ul className="space-y-3">
+          {topPosts.map((post, i) => (
+            <li key={post.id} className="flex items-start gap-3 text-sm">
+              <span className="mt-0.5 font-bold text-brand-600">{i + 1}</span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-medium text-gray-900">{post.title}</p>
+                <p className="text-xs text-gray-500">
+                  {post.views_count.toLocaleString('pt-BR')} views
+                </p>
+              </div>
+            </li>
+          ))}
+          {topPosts.length === 0 ? (
+            <p className="text-sm text-gray-500">Nenhuma notícia publicada ainda.</p>
+          ) : null}
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+function StatCard({
+  label,
+  value,
+  tooltip,
+}: {
+  label: string;
+  value: string | number;
+  tooltip: string;
+}) {
+  return (
+    <div className="rounded-xl border border-gray-200 bg-white p-5">
+      <FieldLabel inline tooltip={tooltip} className="text-sm text-gray-500">
+        {label}
+      </FieldLabel>
+      <p className="mt-1 font-display text-3xl font-bold text-gray-900">{value}</p>
+    </div>
+  );
+}
