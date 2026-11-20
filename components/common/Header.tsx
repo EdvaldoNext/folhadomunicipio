@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { MobileMenu } from '@/components/common/MobileMenu';
 import { getCategories } from '@/lib/data/categories';
@@ -10,10 +11,15 @@ export async function Header() {
   return (
     <header className="relative border-b-4 border-accent-600 bg-brand-900 text-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
-        <Link href="/" aria-label={`${SITE_NAME} - Página inicial`} className="leading-none">
-          <span className="font-display text-2xl font-black tracking-tight text-white sm:text-3xl">
-            Folha do <span className="text-accent-400">Município</span>
-          </span>
+        <Link href="/" aria-label={`${SITE_NAME} - Página inicial`} className="shrink-0 leading-none">
+          <Image
+            src="/logo.png"
+            alt={SITE_NAME}
+            width={512}
+            height={512}
+            priority
+            className="h-16 w-16 sm:h-20 sm:w-20"
+          />
         </Link>
 
         <p className="hidden text-sm capitalize text-brand-100 md:block">

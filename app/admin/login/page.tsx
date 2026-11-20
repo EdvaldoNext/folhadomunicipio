@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { AdminLoginForm } from '@/components/admin/AdminLoginForm';
 
@@ -7,9 +8,14 @@ export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
       <div className="mb-8 flex flex-col items-center">
-        <p className="font-display text-2xl font-black tracking-tight text-brand-900">
-          Folha do <span className="text-accent-600">Município</span>
-        </p>
+        <Image
+          src="/logo.png"
+          alt="Folha do Município"
+          width={512}
+          height={512}
+          priority
+          className="h-20 w-20"
+        />
         <p className="mt-2 text-sm text-gray-500">Painel da redação</p>
       </div>
       <div className="relative w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">

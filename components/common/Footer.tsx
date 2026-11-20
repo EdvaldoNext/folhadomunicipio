@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { getCategories } from '@/lib/data/categories';
 import { SITE_NAME } from '@/lib/site';
@@ -10,9 +11,15 @@ export async function Footer() {
     <footer className="mt-12 border-t-4 border-accent-600 bg-brand-900 text-brand-100">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-3">
         <div>
-          <p className="font-display text-2xl font-black tracking-tight text-white">
-            Folha do <span className="text-accent-400">Município</span>
-          </p>
+          <Link href="/" aria-label={SITE_NAME} className="inline-block">
+            <Image
+              src="/logo.png"
+              alt={SITE_NAME}
+              width={512}
+              height={512}
+              className="h-16 w-16"
+            />
+          </Link>
           <p className="mt-4 max-w-xs text-sm text-brand-200">
             Onde a notícia ganha voz. Jornalismo regional com credibilidade,
             agilidade e compromisso com a verdade.
